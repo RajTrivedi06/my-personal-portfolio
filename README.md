@@ -1,101 +1,50 @@
-# My React Portfolio
+# React + TypeScript + Vite
 
-A modern, single-page-scrolling React portfolio featuring a dynamic landing page and stitched sections (Home, About, Skills, Projects, Connect). Uses Tailwind CSS for styling, Framer Motion (optional) for animations, and a fixed NavDock for intuitive navigation. Perfect for showcasing skills, experience, and projects.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Table of Contents
+Currently, two official plugins are available:
 
-1. [Features](#features)
-2. [Project Structure](#project-structure)
-3. [Getting Started](#getting-started)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
----
+## Expanding the ESLint configuration
 
-## Features
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- **Landing Page** at the root (`/`) with a stylish background animation and a “Get Started” button.
-- **Single-Scroll Layout** for Home, About, Skills, Projects, Connect (and optional Experience) pages. Users can scroll or click on the NavDock icons to jump to a specific section.
-- **NavDock** (a fixed top navigation) that routes between `/Home`, `/About`, `/Skills`, `/Projects`, and `/Connect`, smoothly scrolling to those sections in one continuous page.
-- **Responsive Design** courtesy of Tailwind CSS breakpoints, ensuring the site looks great on mobile, tablet, and desktop.
-- **Animations and Eye Candy**:
-  - **Background gradient animations** on the landing page.
-  - **ShineBorder**, **WobbleCard**, and **Ripple** effects.
-  - Potential usage of **Framer Motion** or ShadCN UI for transitions and tooltips.
-- **Projects Section** showcases a grid of project cards with images and descriptions.
-- **Skills Section** outlines technical and soft skills.
-- **About Section** details personal story, values, and motivations.
-- **Connect Section** for contact info, GitHub, and LinkedIn links.
+- Configure the top-level `parserOptions` property like this:
 
----
-
-## Project Structure
-
-```
-MY-WEBSITE
-├── public/
-├── src/
-│   ├── assets/                # Images, icons, logos
-│   ├── components/
-│   │   └── ui/                # Reusable UI components
-│   ├── pages/                 # "Pages" or "Sections"
-│   │   ├── LandingPage.tsx    # Root landing page
-│   │   ├── HomePage.tsx
-│   │   ├── AboutPage.tsx
-│   │   ├── SkillsPage.tsx
-│   │   ├── ProjectsPage.tsx
-│   │   ├── ConnectPage.tsx
-│   │   ├── SingleScrollPage.tsx   # The big container for Home/About/etc.
-│   ├── lib/
-│   │   └── utils.ts           # Helper functions
-│   ├── App.tsx                # Defines React Router paths
-│   ├── main.tsx               # Entry point
-│   ├── index.css              # Global Tailwind imports
-│   └── vite-env.d.ts          # Type definitions
-├── package.json
-├── README.md                  # This file
-├── postcss.config.js          # PostCSS config
-├── tailwind.config.js         # Tailwind config
-├── tsconfig.json
-└── vite.config.ts             # Vite config (if using Vite)
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
 ```
 
-**Key Files**:
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-- **`App.tsx`**: Sets up routing for `"/"`, `"/Home"`, `"/About"`, etc.
-- **`SingleScrollPage.tsx`**: The master container that displays sections in a continuous scroll.
-- **`LandingPage.tsx`**: The root landing page with an animated button that leads to `/Home`.
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
 
----
-
-## Getting Started
-
-1. **Clone** the repository:
-
-   ```bash
-   git clone https://github.com/RajTrivedi06/my-personal-portfolio.git
-   cd my-personal-portfolio
-   ```
-
-2. **Install** dependencies:
-
-   ```bash
-   npm install
-   ```
-
-   or
-
-   ```bash
-   yarn
-   ```
-
-3. **Run** the development server:
-
-   ```bash
-   npm run dev
-   ```
-
-   - Open your browser at [http://localhost:5173](http://localhost:5173) (Vite’s default) or [http://localhost:3000](http://localhost:3000) if using Create React App.
-   - The site auto-reloads on file changes.
-
-4. **Explore** the code:
-   - Update **`LandingPage.tsx`** for the landing screen.
-   - Customize **`SingleScrollPage.tsx`** to add or remove sections (Home, About, Skills, Projects, Connect).
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
