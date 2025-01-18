@@ -10,7 +10,7 @@ import ConnectPage from "./ConnectPage";
 // import ExperiencePage from "./ExperiencePage"; // commented out for now
 
 type SingleScrollPageProps = {
-  section?: string;
+  section?: keyof typeof SECTION_IDS;
 };
 
 // We'll map each route path to a string ID used in our switch

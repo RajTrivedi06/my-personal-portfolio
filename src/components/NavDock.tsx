@@ -1,6 +1,6 @@
 // src/components/ui/NavDock.tsx
 
-import React from "react";
+// import React from "react";
 import { Link } from "react-router-dom";
 
 // Example: MagicUI Dock
@@ -23,7 +23,6 @@ import {
   UserIcon,
   CodeIcon,
   FolderIcon,
-  BriefcaseIcon,
   MailIcon,
 } from "lucide-react";
 
